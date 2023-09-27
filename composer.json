@@ -15,7 +15,7 @@
     "minimum-stability": "dev",
     "require": {
         "yiisoft/yii2": "*",
-        "aws/aws-sdk-php": "dev-master / 3.0.x-dev"
+        "aws/aws-sdk-php": "3.0.x-dev"
     },
     "autoload": {
         "psr-4": {
