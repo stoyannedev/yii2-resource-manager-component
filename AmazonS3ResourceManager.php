@@ -79,7 +79,7 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 			'Bucket' => $this->bucket,
 			'Key' => $name,
 			'SourceFile' => $file->tempName,
-			'ACL' => CannedAcl::PUBLIC_READ // default to ACL public read
+			'ACL' => 'public-read' // default to ACL public read
 		], $options);
 
 		return $this->getClient()->putObject($options);
