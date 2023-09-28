@@ -1,6 +1,6 @@
 {
     "name": "2amigos/yii2-resource-manager-component",
-    "description": "Resource manager eases your project resources management.",
+    "description": "Resource manager eases your project resources management. Stoyan's alternation.",
     "keywords": ["yii", "extension", "component", "resource"],
     "homepage": "https://github.com/2amigos/yii2-resource-manager-component",
     "type": "yii2-extension",
