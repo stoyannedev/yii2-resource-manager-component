@@ -65,10 +65,10 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	 */
 	public function init()
 	{
-		foreach (['key', 'secret', 'bucket'] as $attribute) {
+		foreach (['credentials', 'bucket'] as $attribute) {
 			if ($this->$attribute === null) {
 				throw new InvalidConfigException(strtr('"{class}::{attribute}" cannot be empty.', [
-					'{class}' => static::className(),
+					'{class}' => static::class,
 					'{attribute}' => '$' . $attribute
 				]));
 			}
@@ -185,11 +185,12 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	public function getClient()
 	{
 		if ($this->_client === null) {
-			$credentials = new \Aws\Credentials\Credentials($this->key ,$this->secret);
 			$settings=[
 				'version' => $this->version,
+				'key' => $this->key, 
+				'secret' => $this->secret,
 				'region' => $this->region,
-				'credentials' => $credentials,
+				'credentials' => ['key' => $this->key, 'secret' => $this->secret],
 			];
 			if($this->enableV4) {
 				$settings['signature']='v4';
