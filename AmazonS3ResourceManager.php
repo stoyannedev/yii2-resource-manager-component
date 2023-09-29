@@ -27,6 +27,10 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 {
 
 	/**
+     * @var string Amazon version
+     */
+    public $version;
+	/**
 	 * @var string Amazon access key
 	 */
 	public $key;
@@ -42,6 +46,10 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	 * @var string Amazon Bucket
 	 */
 	public $bucket;
+	/**
+     * @var array Amazon credentials
+     */
+    public $credentials;
 	/**
 	 * @var \Aws\S3\S3Client
 	 */
@@ -177,17 +185,17 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	public function getClient()
 	{
 		if ($this->_client === null) {
+			$credentials = new \Aws\Credentials\Credentials($this->key ,$this->secret);
 			$settings=[
+				'version' => $this->version,
 				'region' => $this->region,
-				'credentials' => [
-					'key' => $this->key, 
-					'secret' => $this->secret
-				],
+				'credentials' => $credentials,
 			];
-			if($this->enableV4)
+			if($this->enableV4) {
 				$settings['signature']='v4';
+			}				
 			
-			$this->_client = S3Client::factory($settings);
+			$this->_client = new S3Client($settings);
 		}
 		return $this->_client;
 	}
