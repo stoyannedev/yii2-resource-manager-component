@@ -1,6 +1,6 @@
 {
     "name": "2amigos/yii2-resource-manager-component",
-    "description": "Resource manager eases your project resources management.",
+    "description": "Resource manager eases your project resources management. Stoyan's alternation.",
     "keywords": ["yii", "extension", "component", "resource"],
     "homepage": "https://github.com/2amigos/yii2-resource-manager-component",
     "type": "yii2-extension",
@@ -15,7 +15,7 @@
     "minimum-stability": "dev",
     "require": {
         "yiisoft/yii2": "*",
-        "aws/aws-sdk-php": "3.0.x-dev"
+        "aws/aws-sdk-php": "3.282.0"
     },
     "autoload": {
         "psr-4": {
