@@ -6,10 +6,8 @@
  */
 namespace dosamigos\resourcemanager;
 
-use Aws\S3\Enum\CannedAcl;
 use Aws\S3\S3Client;
-use Guzzle\Http\Exception\ClientErrorResponseException;
-use Guzzle\Service\Client;
+use GuzzleHttp\Exception\RequestException;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
@@ -47,10 +45,6 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	 */
 	public $bucket;
 	/**
-     * @var array Amazon credentials
-     */
-    public $credentials;
-	/**
 	 * @var \Aws\S3\S3Client
 	 */
 	private $_client;
@@ -65,7 +59,7 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	 */
 	public function init()
 	{
-		foreach (['credentials', 'bucket'] as $attribute) {
+		foreach (['key','secret', 'region', 'bucket'] as $attribute) {
 			if ($this->$attribute === null) {
 				throw new InvalidConfigException(strtr('"{class}::{attribute}" cannot be empty.', [
 					'{class}' => static::class,
@@ -120,13 +114,13 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 	 */
 	public function fileExists($name)
 	{
-		$http = new \Guzzle\Http\Client();
+		$http = new \GuzzleHttp\Client();
 		try {
-			$response = $http->get($this->getUrl($name))->send();
-		} catch(ClientErrorResponseException $e) {
+			$response = $http->get($this->getUrl($name));
+		} catch(RequestException $e) {
 			return false;
 		}
-		return $response->isSuccessful();
+		return $response->getStatusCode() == 200;
 	}
 
 	/**
@@ -187,8 +181,6 @@ class AmazonS3ResourceManager extends Component implements ResourceManagerInterf
 		if ($this->_client === null) {
 			$settings=[
 				'version' => $this->version,
-				'key' => $this->key, 
-				'secret' => $this->secret,
 				'region' => $this->region,
 				'credentials' => ['key' => $this->key, 'secret' => $this->secret],
 			];
